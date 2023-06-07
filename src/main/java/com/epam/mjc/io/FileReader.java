@@ -16,34 +16,32 @@ public class FileReader {
             }
 
             String stringInFile = output.toString();
-            Profile profile = new Profile();
-            int index = 0;
-            String[] lines = stringInFile.split("\n");
-            for (String line : lines) {
-                String[] keyValue = line.split(":");
-                if (keyValue.length == 2) {
-                    String key = keyValue[0].trim();
-                    String value = keyValue[1].trim();
-                    if (key.equals("Name")) {
-                        profile.setName(value);
-                    }
-                    if (key.equals("Age")) {
-                        profile.setAge(Integer.parseInt(value));
-                    }
-                    if (key.equals("Email")) {
-                        profile.setEmail(value);
-                    }
-                    if (key.equals("Phone")) {
-                        profile.setPhone(Long.parseLong(value));
-                    }
-                    index += 1;
-                }
-            }
-            return profile;
+            return parseProfile(stringInFile);
 
         } catch (IOException ex) {
             return null;
         }
+    }
 
+    private Profile parseProfile(String stringInFile) {
+        Profile profile = new Profile();
+        String[] lines = stringInFile.split("\n");
+        for (String line : lines) {
+            String[] keyValue = line.split(":");
+            if (keyValue.length == 2) {
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                if (key.equals("Name")) {
+                    profile.setName(value);
+                } else if (key.equals("Age")) {
+                    profile.setAge(Integer.parseInt(value));
+                } else if (key.equals("Email")) {
+                    profile.setEmail(value);
+                } else if (key.equals("Phone")) {
+                    profile.setPhone(Long.parseLong(value));
+                }
+            }
+        }
+        return profile;
     }
 }
